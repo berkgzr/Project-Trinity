@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(which node *)",
+      "Bash(export PATH=\"$PATH:/usr/local/bin:/opt/homebrew/bin\")",
+      "Bash(find /usr /opt /Users/berk -name \"node\" -type f 2>/dev/null | head -5)",
+      "Read(//Users/berk/.nvm/versions/**)",
+      "Read(//Users/berk/**)",
+      "Bash(find /Users/berk -name \"node\" -maxdepth 8 2>/dev/null | head -5; ls /usr/local/lib/node_modules 2>/dev/null; ls /opt/homebrew/lib/node_modules 2>/dev/null)",
+      "Bash(mdfind -name \"node\" -onlyin /usr/local)",
+      "Bash(mdfind -name \"node\" -onlyin /opt/homebrew)",
+      "Bash(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh)",
+      "Bash(bash)",
+      "Bash(curl -s -X POST http://localhost:3000/analyze -H 'Content-Type: application/json' -d '{\"url\":\"https://hubspot.com\"}')",
+      "Bash(python3 -m json.tool)",
+      "Bash(git --version)",
+      "Bash(ssh-keygen -t ed25519 -C \"spy-ai-repo\" -f ~/.ssh/id_rsa -N \"\")",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>&1)"
+    ]
+  }
+}

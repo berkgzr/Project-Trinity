@@ -1,0 +1,558 @@
+[
+  {
+    "id": "insider",
+    "name": "Insider",
+    "category": "Marketing Automation & Personalization",
+    "icon": "https://useinsider.com/favicon.ico",
+    "color": "#FF6B35",
+    "detectionRules": {
+      "scriptPatterns": [
+        "useinsider\\.com",
+        "ins\\.js",
+        "inone\\.js",
+        "insider-api\\.com"
+      ],
+      "jsVariables": [
+        "Insider",
+        "ins_object",
+        "window.Insider"
+      ],
+      "cookieNames": [
+        "insider_token",
+        "ins_sid",
+        "ins_visitor_id",
+        "insider_eu_survey"
+      ],
+      "domSelectors": [
+        "[class*='ins-element']",
+        "[id*='ins-root']",
+        "[class*='insider-']",
+        "ins-inone"
+      ],
+      "networkHosts": [
+        "useinsider.com",
+        "insider-api.com",
+        "indigitall.com"
+      ]
+    }
+  },
+  {
+    "id": "segmentify",
+    "name": "Segmentify",
+    "category": "Personalization & Recommendation",
+    "icon": "https://www.segmentify.com/favicon.ico",
+    "color": "#4A90E2",
+    "detectionRules": {
+      "scriptPatterns": [
+        "segmentify\\.com",
+        "cdn\\.segmentify\\.com",
+        "segmentify\\.js"
+      ],
+      "jsVariables": [
+        "Segmentify",
+        "segmentify",
+        "window.Segmentify"
+      ],
+      "cookieNames": [
+        "segmentify_user",
+        "sgmtfy",
+        "segmentify_session"
+      ],
+      "domSelectors": [
+        "[id*='segmentify']",
+        "[class*='segmentify']",
+        "[data-segmentify]"
+      ],
+      "networkHosts": [
+        "segmentify.com",
+        "cdn.segmentify.com"
+      ]
+    }
+  },
+  {
+    "id": "salesforce_mc",
+    "name": "Salesforce Marketing Cloud",
+    "category": "Marketing Automation",
+    "icon": "https://www.salesforce.com/favicon.ico",
+    "color": "#00A1E0",
+    "detectionRules": {
+      "scriptPatterns": [
+        "exacttarget\\.com",
+        "salesforce-interactions\\.com",
+        "cdn\\.salesforceliveagent\\.com",
+        "mc\\.exacttarget\\.com",
+        "collect\\.js",
+        "sfmc"
+      ],
+      "jsVariables": [
+        "SalesforceInteractions",
+        "_etmc",
+        "ET_jstracker",
+        "window._etmc"
+      ],
+      "cookieNames": [
+        "SFMC_ET",
+        "_et_cid",
+        "ET:recipientid",
+        "sfmc_id"
+      ],
+      "domSelectors": [
+        "[data-sfmc]",
+        "[id*='exacttarget']",
+        "script[src*='exacttarget']"
+      ],
+      "networkHosts": [
+        "exacttarget.com",
+        "salesforce-interactions.com",
+        "cdn.salesforceliveagent.com",
+        "mc.exacttarget.com"
+      ]
+    }
+  },
+  {
+    "id": "braze",
+    "name": "Braze",
+    "category": "Customer Engagement Platform",
+    "icon": "https://www.braze.com/favicon.ico",
+    "color": "#F26522",
+    "detectionRules": {
+      "scriptPatterns": [
+        "braze\\.com",
+        "appboy\\.com",
+        "js\\.appboycdn\\.com",
+        "sdk\\.fra-01\\.braze\\.eu"
+      ],
+      "jsVariables": [
+        "braze",
+        "appboy",
+        "window.braze",
+        "window.appboy"
+      ],
+      "cookieNames": [
+        "ab.storage",
+        "ab.optOut",
+        "braze_id"
+      ],
+      "domSelectors": [
+        "[id*='braze']",
+        "[class*='braze']",
+        "[data-braze]",
+        "#braze-feed-placeholder"
+      ],
+      "networkHosts": [
+        "braze.com",
+        "appboy.com",
+        "appboycdn.com",
+        "sdk.fra-01.braze.eu"
+      ]
+    }
+  },
+  {
+    "id": "klaviyo",
+    "name": "Klaviyo",
+    "category": "Email & SMS Marketing",
+    "icon": "https://www.klaviyo.com/favicon.ico",
+    "color": "#29B473",
+    "detectionRules": {
+      "scriptPatterns": [
+        "klaviyo\\.com",
+        "static\\.klaviyo\\.com",
+        "a\\.klaviyo\\.com"
+      ],
+      "jsVariables": [
+        "klaviyo",
+        "_klOnsite",
+        "window.klaviyo",
+        "__kla_id"
+      ],
+      "cookieNames": [
+        "__kla_id",
+        "klaviyo_cookie",
+        "_kx"
+      ],
+      "domSelectors": [
+        "[class*='klaviyo']",
+        "[id*='klaviyo']",
+        "[data-klaviyo]",
+        "form[action*='klaviyo']"
+      ],
+      "networkHosts": [
+        "klaviyo.com",
+        "static.klaviyo.com",
+        "a.klaviyo.com"
+      ]
+    }
+  },
+  {
+    "id": "emarsys",
+    "name": "Emarsys",
+    "category": "Marketing Automation",
+    "icon": "https://emarsys.com/favicon.ico",
+    "color": "#00B4D8",
+    "detectionRules": {
+      "scriptPatterns": [
+        "emarsys\\.com",
+        "recomm\\.emarsys\\.net",
+        "scarabresearch\\.com",
+        "scarab\\.js"
+      ],
+      "jsVariables": [
+        "ScarabQueue",
+        "Scarab",
+        "window.ScarabQueue",
+        "emarsys"
+      ],
+      "cookieNames": [
+        "scarab",
+        "cdv",
+        "s",
+        "emarsys_session"
+      ],
+      "domSelectors": [
+        "[id*='emarsys']",
+        "[class*='emarsys']",
+        "[data-emarsys]"
+      ],
+      "networkHosts": [
+        "emarsys.com",
+        "recomm.emarsys.net",
+        "scarabresearch.com"
+      ]
+    }
+  },
+  {
+    "id": "adobe_experience",
+    "name": "Adobe Experience Cloud",
+    "category": "Marketing & Analytics Suite",
+    "icon": "https://www.adobe.com/favicon.ico",
+    "color": "#FF0000",
+    "detectionRules": {
+      "scriptPatterns": [
+        "omtrdc\\.net",
+        "2o7\\.net",
+        "adobedtm\\.com",
+        "assets\\.adobedtm\\.com",
+        "launch-\\w+\\.min\\.js",
+        "target\\.js",
+        "at\\.js"
+      ],
+      "jsVariables": [
+        "adobe",
+        "_satellite",
+        "Visitor",
+        "AppMeasurement",
+        "AT",
+        "adobe.target"
+      ],
+      "cookieNames": [
+        "AMCV_",
+        "mbox",
+        "s_cc",
+        "s_sq",
+        "s_vi",
+        "aam_uuid"
+      ],
+      "domSelectors": [
+        "[id*='adobedtm']",
+        "script[src*='omtrdc']",
+        "script[src*='adobedtm']"
+      ],
+      "networkHosts": [
+        "omtrdc.net",
+        "2o7.net",
+        "adobedtm.com",
+        "demdex.net"
+      ]
+    }
+  },
+  {
+    "id": "moengage",
+    "name": "MoEngage",
+    "category": "Customer Engagement Platform",
+    "icon": "https://www.moengage.com/favicon.ico",
+    "color": "#1A73E8",
+    "detectionRules": {
+      "scriptPatterns": [
+        "moengage\\.com",
+        "cdn\\.moengage\\.com",
+        "sdk-cdn\\.moengage\\.com"
+      ],
+      "jsVariables": [
+        "Moengage",
+        "moe",
+        "window.Moengage",
+        "_moengage"
+      ],
+      "cookieNames": [
+        "moe_uuid",
+        "moengage_session",
+        "MOE_DATA"
+      ],
+      "domSelectors": [
+        "[id*='moengage']",
+        "[class*='moengage']",
+        "[data-moe]"
+      ],
+      "networkHosts": [
+        "moengage.com",
+        "cdn.moengage.com",
+        "sdk-cdn.moengage.com"
+      ]
+    }
+  },
+  {
+    "id": "clevertap",
+    "name": "CleverTap",
+    "category": "Customer Engagement Platform",
+    "icon": "https://clevertap.com/favicon.ico",
+    "color": "#FF6B6B",
+    "detectionRules": {
+      "scriptPatterns": [
+        "clevertap\\.com",
+        "d2r1yp2w7bby2u\\.cloudfront\\.net",
+        "clevertap-prod\\.com"
+      ],
+      "jsVariables": [
+        "clevertap",
+        "window.clevertap",
+        "CleverTap"
+      ],
+      "cookieNames": [
+        "WZRK_S",
+        "WZRK_G",
+        "WZRK_L",
+        "WZRK_PR"
+      ],
+      "domSelectors": [
+        "[id*='clevertap']",
+        "[class*='clevertap']",
+        "[data-clevertap]"
+      ],
+      "networkHosts": [
+        "clevertap.com",
+        "clevertap-prod.com",
+        "d2r1yp2w7bby2u.cloudfront.net"
+      ]
+    }
+  },
+  {
+    "id": "bloomreach",
+    "name": "Bloomreach",
+    "category": "Personalization & Commerce",
+    "icon": "https://www.bloomreach.com/favicon.ico",
+    "color": "#FF8C00",
+    "detectionRules": {
+      "scriptPatterns": [
+        "bloomreach\\.com",
+        "exponea\\.com",
+        "sdk\\.exponea\\.com",
+        "bloomreach-sdk"
+      ],
+      "jsVariables": [
+        "exponea",
+        "Bloomreach",
+        "window.exponea",
+        "bloomreach"
+      ],
+      "cookieNames": [
+        "__exponea_etc__",
+        "__exponea_time__",
+        "xnpe_app_id"
+      ],
+      "domSelectors": [
+        "[id*='exponea']",
+        "[class*='exponea']",
+        "[data-bloomreach]",
+        "[id*='bloomreach']"
+      ],
+      "networkHosts": [
+        "bloomreach.com",
+        "exponea.com",
+        "sdk.exponea.com"
+      ]
+    }
+  },
+  {
+    "id": "mixpanel",
+    "name": "Mixpanel",
+    "category": "Product Analytics",
+    "icon": "https://mixpanel.com/favicon.ico",
+    "color": "#7856FF",
+    "detectionRules": {
+      "scriptPatterns": [
+        "mixpanel\\.com",
+        "cdn\\.mxpnl\\.com",
+        "mixpanel-2\\.\\d+\\.min\\.js"
+      ],
+      "jsVariables": [
+        "mixpanel",
+        "window.mixpanel",
+        "__mp_opt_in_out"
+      ],
+      "cookieNames": [
+        "__mp_opt_in_out",
+        "mp_",
+        "mixpanel"
+      ],
+      "domSelectors": [
+        "script[src*='mixpanel']",
+        "[data-mixpanel]"
+      ],
+      "networkHosts": [
+        "mixpanel.com",
+        "cdn.mxpnl.com",
+        "api.mixpanel.com"
+      ]
+    }
+  },
+  {
+    "id": "amplitude",
+    "name": "Amplitude",
+    "category": "Product Analytics",
+    "icon": "https://amplitude.com/favicon.ico",
+    "color": "#0066CC",
+    "detectionRules": {
+      "scriptPatterns": [
+        "amplitude\\.com",
+        "cdn\\.amplitude\\.com",
+        "amplitude-js"
+      ],
+      "jsVariables": [
+        "amplitude",
+        "window.amplitude",
+        "amplitudeSessionReplay"
+      ],
+      "cookieNames": [
+        "amplitude_id",
+        "amplitude_cookie",
+        "amp_"
+      ],
+      "domSelectors": [
+        "script[src*='amplitude']",
+        "[data-amplitude]"
+      ],
+      "networkHosts": [
+        "amplitude.com",
+        "cdn.amplitude.com",
+        "api2.amplitude.com"
+      ]
+    }
+  },
+  {
+    "id": "segment",
+    "name": "Segment",
+    "category": "Customer Data Platform",
+    "icon": "https://segment.com/favicon.ico",
+    "color": "#52BD95",
+    "detectionRules": {
+      "scriptPatterns": [
+        "segment\\.com",
+        "cdn\\.segment\\.com",
+        "analytics\\.js",
+        "cdn\\.segment\\.io"
+      ],
+      "jsVariables": [
+        "analytics",
+        "window.analytics",
+        "AnalyticsNext"
+      ],
+      "cookieNames": [
+        "ajs_anonymous_id",
+        "ajs_user_id",
+        "ajs_group_id"
+      ],
+      "domSelectors": [
+        "script[src*='segment.com']",
+        "script[src*='segment.io']",
+        "[data-segment]"
+      ],
+      "networkHosts": [
+        "segment.com",
+        "cdn.segment.com",
+        "cdn.segment.io",
+        "api.segment.io"
+      ]
+    }
+  },
+  {
+    "id": "hubspot",
+    "name": "HubSpot",
+    "category": "CRM & Marketing",
+    "icon": "https://www.hubspot.com/favicon.ico",
+    "color": "#FF7A59",
+    "detectionRules": {
+      "scriptPatterns": [
+        "hubspot\\.com",
+        "hs-scripts\\.com",
+        "hs-banner\\.com",
+        "hs-analytics\\.net",
+        "hsforms\\.net",
+        "js\\.hs-scripts\\.com"
+      ],
+      "jsVariables": [
+        "_hsq",
+        "HubSpotForms",
+        "window._hsq",
+        "hsVars"
+      ],
+      "cookieNames": [
+        "hubspotutk",
+        "__hstc",
+        "__hssc",
+        "__hsfp",
+        "messagesUtk"
+      ],
+      "domSelectors": [
+        "[id*='hubspot']",
+        "[class*='hubspot']",
+        "#hubspot-messages-iframe-container",
+        "iframe[data-src*='hubspot']"
+      ],
+      "networkHosts": [
+        "hubspot.com",
+        "hs-scripts.com",
+        "hs-banner.com",
+        "hs-analytics.net",
+        "hsforms.net"
+      ]
+    }
+  },
+  {
+    "id": "intercom",
+    "name": "Intercom",
+    "category": "Customer Messaging",
+    "icon": "https://www.intercom.com/favicon.ico",
+    "color": "#1F8DED",
+    "detectionRules": {
+      "scriptPatterns": [
+        "intercom\\.io",
+        "widget\\.intercom\\.io",
+        "js\\.intercomcdn\\.com",
+        "intercomcdn\\.com"
+      ],
+      "jsVariables": [
+        "Intercom",
+        "window.Intercom",
+        "intercomSettings",
+        "window.intercomSettings"
+      ],
+      "cookieNames": [
+        "intercom-id-",
+        "intercom-session-",
+        "intercom-device-id-"
+      ],
+      "domSelectors": [
+        "#intercom-container",
+        ".intercom-lightweight-app",
+        "[class*='intercom-']",
+        "iframe[src*='intercom']"
+      ],
+      "networkHosts": [
+        "intercom.io",
+        "intercomcdn.com",
+        "widget.intercom.io",
+        "api.intercom.io"
+      ]
+    }
+  }
+]

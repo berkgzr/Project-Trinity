@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spy AI — Technology Detector</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent: #6366f1;
+      --accent-hover: #4f52d9;
+      --text: #e8eaf6;
+      --text-muted: #7c84b0;
+      --green: #22c55e;
+      --red: #ef4444;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    header .logo {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header .logo span { -webkit-text-fill-color: var(--text); }
+    header p {
+      margin-top: 8px;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* ── Search bar ── */
+    .search-wrap {
+      width: 100%;
+      max-width: 680px;
+      margin-bottom: 40px;
+    }
+    .search-box {
+      display: flex;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 6px 6px 6px 18px;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus-within {
+      border-color: var(--accent);
+    }
+    .search-box input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 1rem;
+      padding: 8px 0;
+    }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .search-box button:hover { background: var(--accent-hover); }
+    .search-box button:active { transform: scale(0.97); }
+    .search-box button:disabled {
+      background: var(--border);
+      cursor: not-allowed;
+    }
+
+    /* ── States ── */
+    #state-idle, #state-loading, #state-error, #state-results { width: 100%; max-width: 860px; }
+    .hidden { display: none !important; }
+
+    /* Idle hint */
+    #state-idle {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 48px 0;
+    }
+    #state-idle .big-icon { font-size: 3rem; margin-bottom: 12px; }
+
+    /* Loading */
+    #state-loading {
+      text-align: center;
+      padding: 64px 0;
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #state-loading p { color: var(--text-muted); }
+
+    /* Error */
+    #state-error {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      color: #fca5a5;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    #state-error .err-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+    /* ── Results header ── */
+    .results-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .results-header h2 { font-size: 1.1rem; font-weight: 600; }
+    .results-header .meta { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* ── Cards grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-color, var(--accent));
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .card-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .card-icon img {
+      width: 22px; height: 22px;
+      object-fit: contain;
+      border-radius: 3px;
+    }
+    .card-icon .fallback {
+      font-size: 1.1rem;
+    }
+    .card-name {
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+    .card-category {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .badge-script    { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+    .badge-js        { background: rgba(234,179,8,0.15);  color: #fde047; }
+    .badge-cookie    { background: rgba(34,197,94,0.15);  color: #86efac; }
+    .badge-dom       { background: rgba(236,72,153,0.15); color: #f9a8d4; }
+    .badge-network   { background: rgba(14,165,233,0.15); color: #7dd3fc; }
+    .badge-html      { background: rgba(249,115,22,0.15); color: #fdba74; }
+
+    .evidence {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 10px;
+      word-break: break-all;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    .all-matches {
+      margin-top: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+    .all-matches summary {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .all-matches summary:hover { color: var(--text); }
+    .match-item {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 0.72rem;
+      align-items: flex-start;
+    }
+    .match-method {
+      flex-shrink: 0;
+      color: var(--text-muted);
+      font-weight: 600;
+      min-width: 80px;
+    }
+    .match-evidence {
+      color: var(--text);
+      word-break: break-all;
+      opacity: 0.8;
+    }
+
+    /* ── No detections ── */
+    .no-results {
+      text-align: center;
+      padding: 64px 0;
+      color: var(--text-muted);
+    }
+    .no-results .big-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 64px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 520px) {
+      .search-box { flex-direction: column; padding: 12px; }
+      .search-box button { width: 100%; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Spy<span> AI</span></div>
+    <p>Detect marketing &amp; analytics technologies running on any website</p>
+  </header>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <input
+        type="text"
+        id="url-input"
+        placeholder="Enter a website URL — e.g. hubspot.com"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button id="analyze-btn" onclick="runAnalysis()">Analyze</button>
+    </div>
+  </div>
+
+  <!-- Idle state -->
+  <div id="state-idle">
+    <div class="big-icon">🔍</div>
+    <p>Enter a URL above to discover which platforms the site is using.</p>
+  </div>
+
+  <!-- Loading state -->
+  <div id="state-loading" class="hidden">
+    <div class="spinner"></div>
+    <p id="loading-url">Analyzing…</p>
+  </div>
+
+  <!-- Error state -->
+  <div id="state-error" class="hidden">
+    <span class="err-icon">⚠️</span>
+    <span id="error-msg"></span>
+  </div>
+
+  <!-- Results -->
+  <div id="state-results" class="hidden">
+    <div class="results-header">
+      <h2 id="results-title"></h2>
+      <span class="meta" id="results-meta"></span>
+    </div>
+    <div class="cards-grid" id="cards-container"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>Spy AI · Powered by Playwright &amp; Node.js</footer>
+
+  <script>
+    const API_BASE = ''; // same origin
+
+    const input       = document.getElementById('url-input');
+    const btn         = document.getElementById('analyze-btn');
+    const stateIdle   = document.getElementById('state-idle');
+    const stateLoad   = document.getElementById('state-loading');
+    const stateError  = document.getElementById('state-error');
+    const stateResult = document.getElementById('state-results');
+
+    // Allow Enter key to trigger analysis
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runAnalysis();
+    });
+
+    function showState(which) {
+      [stateIdle, stateLoad, stateError, stateResult].forEach((el) => {
+        el.classList.add('hidden');
+      });
+      which.classList.remove('hidden');
+    }
+
+    function methodBadgeClass(method) {
+      const map = {
+        'Script URL':       'badge-script',
+        'HTML Pattern':     'badge-html',
+        'JS Variable':      'badge-js',
+        'Cookie':           'badge-cookie',
+        'DOM Element':      'badge-dom',
+        'Network Request':  'badge-network',
+      };
+      return map[method] || 'badge-script';
+    }
+
+    function methodIcon(method) {
+      const map = {
+        'Script URL':       '📜',
+        'HTML Pattern':     '🧾',
+        'JS Variable':      '⚡',
+        'Cookie':           '🍪',
+        'DOM Element':      '🏷️',
+        'Network Request':  '🌐',
+      };
+      return map[method] || '🔎';
+    }
+
+    function truncate(str, n = 60) {
+      if (!str) return '';
+      return str.length > n ? str.slice(0, n) + '…' : str;
+    }
+
+    function renderCards(detections) {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+
+      if (detections.length === 0) {
+        container.innerHTML = `
+          <div class="no-results" style="grid-column:1/-1">
+            <div class="big-icon">🕵️</div>
+            <p>No known platforms detected on this site.</p>
+          </div>`;
+        return;
+      }
+
+      for (const d of detections) {
+        const badgeClass = methodBadgeClass(d.detectedBy);
+        const icon       = methodIcon(d.detectedBy);
+
+        // All-matches detail rows
+        const matchRows = (d.allMatches || []).map((m) => `
+          <div class="match-item">
+            <span class="match-method">${m.method}</span>
+            <span class="match-evidence">${escHtml(truncate(m.evidence, 80))}</span>
+          </div>`).join('');
+
+        const allMatchesHtml = d.allMatches && d.allMatches.length > 1 ? `
+          <details class="all-matches">
+            <summary>${d.allMatches.length} signal${d.allMatches.length > 1 ? 's' : ''} detected — click to expand</summary>
+            ${matchRows}
+          </details>` : '';
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.setProperty('--card-color', d.color || '#6366f1');
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="card-icon">
+              <img
+                src="${escHtml(d.icon)}"
+                alt="${escHtml(d.name)}"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block'"
+              />
+              <span class="fallback" style="display:none">🔧</span>
+            </div>
+            <div>
+              <div class="card-name">${escHtml(d.name)}</div>
+              <div class="card-category">${escHtml(d.category)}</div>
+            </div>
+          </div>
+          <span class="badge ${badgeClass}">${icon} ${escHtml(d.detectedBy)}</span>
+          <div class="evidence">${escHtml(truncate(d.scriptUrl, 72))}</div>
+          ${allMatchesHtml}
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function escHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    async function runAnalysis() {
+      const url = input.value.trim();
+      if (!url) {
+        input.focus();
+        return;
+      }
+
+      btn.disabled = true;
+      document.getElementById('loading-url').textContent = `Scanning ${url}…`;
+      showState(stateLoad);
+
+      try {
+        const res = await fetch(`${API_BASE}/analyze`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url }),
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+          document.getElementById('error-msg').textContent = data.error || 'Unknown error.';
+          showState(stateError);
+          return;
+        }
+
+        // Populate results header
+        const count = data.detections.length;
+        document.getElementById('results-title').textContent =
+          count === 0
+            ? 'No known platforms detected'
+            : `${count} platform${count !== 1 ? 's' : ''} detected`;
+
+        document.getElementById('results-meta').textContent =
+          `${data.meta.url} · ${(data.meta.durationMs / 1000).toFixed(1)}s`;
+
+        renderCards(data.detections);
+        showState(stateResult);
+      } catch (err) {
+        document.getElementById('error-msg').textContent =
+          'Could not connect to the Spy AI server. Is it running?';
+        showState(stateError);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
