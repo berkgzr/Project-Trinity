@@ -34,6 +34,30 @@
         "insider-api.com",
         "indigitall.com"
       ]
+    },
+    "features": {
+      "Site Search (Eureka)": [
+        "[class*='ins-eureka']",
+        "[class*='insider-search']",
+        "[id*='insider-search']",
+        "[class*='ins-search-result']"
+      ],
+      "Smart Recommender": [
+        "[class*='ins-web-smart-recommender']",
+        "[class*='ins-sr-api']"
+      ],
+      "Faceted Search / Filters (ins-facet)": [
+        "[class*='ins-facet']",
+        "[class*='ins-sidebar-filters']"
+      ],
+      "Onsite Notification (ins-notification)": [
+        "[class*='ins-notification']"
+      ],
+      "Onsite Widgets (ins-element)": [
+        "[class*='ins-element']",
+        "[id*='ins-frameless']",
+        "[class*='ins-preview-wrapper']"
+      ]
     }
   },
   {
@@ -61,11 +85,22 @@
       "domSelectors": [
         "[id*='segmentify']",
         "[class*='segmentify']",
-        "[data-segmentify]"
+        "[data-segmentify]",
+        "[class*='sgm-']"
       ],
       "networkHosts": [
         "segmentify.com",
         "cdn.segmentify.com"
+      ]
+    },
+    "features": {
+      "Site Search (Searchbox)": [
+        "[class*='sgm-searchbox']",
+        "[class*='sgm-search']"
+      ],
+      "Product Recommendations (Showcase)": [
+        "[class*='segmentify-showcase']",
+        "[id*='segmentify-showcase']"
       ]
     }
   },
@@ -145,6 +180,15 @@
         "appboycdn.com",
         "sdk.fra-01.braze.eu"
       ]
+    },
+    "features": {
+      "In-App Messages": [
+        "[class*='ab-iam-root']",
+        "[class*='ab-in-app-message']"
+      ],
+      "Content Cards": [
+        "[class*='ab-feed']"
+      ]
     }
   },
   {
@@ -181,6 +225,15 @@
         "static.klaviyo.com",
         "a.klaviyo.com"
       ]
+    },
+    "features": {
+      "Signup Forms / Popups": [
+        "[class*='klaviyo-form']",
+        "[id*='klaviyo-form']"
+      ],
+      "Back in Stock": [
+        "[class*='klaviyo-bis']"
+      ]
     }
   },
   {
@@ -215,6 +268,12 @@
         "emarsys.com",
         "recomm.emarsys.net",
         "scarabresearch.com"
+      ]
+    },
+    "features": {
+      "Web Recommender (Scarab)": [
+        "[class*='scarab']",
+        "[id*='scarab']"
       ]
     }
   },
@@ -261,6 +320,12 @@
         "adobedtm.com",
         "demdex.net"
       ]
+    },
+    "features": {
+      "Adobe Target (A/B Testing)": [
+        "[class*='mboxDefault']",
+        ".mboxDefault"
+      ]
     }
   },
   {
@@ -296,6 +361,13 @@
         "cdn.moengage.com",
         "sdk-cdn.moengage.com"
       ]
+    },
+    "features": {
+      "Web Push Opt-in / Onsite Messaging": [
+        "[id*='moe-push']",
+        "[class*='moe-onsite']",
+        "[id*='moengage']"
+      ]
     }
   },
   {
@@ -330,6 +402,12 @@
         "clevertap.com",
         "clevertap-prod.com",
         "d2r1yp2w7bby2u.cloudfront.net"
+      ]
+    },
+    "features": {
+      "Web Popups / Push Prompt (wzrk)": [
+        "[id*='wzrk']",
+        "[class*='wzrk']"
       ]
     }
   },
@@ -367,6 +445,12 @@
         "bloomreach.com",
         "exponea.com",
         "sdk.exponea.com"
+      ]
+    },
+    "features": {
+      "Web Layers / Banners (Exponea)": [
+        "[class*='exponea']",
+        "[id*='exponea']"
       ]
     }
   },
@@ -513,6 +597,20 @@
         "hs-analytics.net",
         "hsforms.net"
       ]
+    },
+    "features": {
+      "Live Chat (Conversations)": [
+        "#hubspot-messages-iframe-container",
+        "[id*='hubspot-conversations']"
+      ],
+      "Forms": [
+        "[class*='hbspt-form']",
+        "[id*='hbspt-form']",
+        "form[id*='hsForm']"
+      ],
+      "CTAs": [
+        "[class*='hs-cta-wrapper']"
+      ]
     }
   },
   {
@@ -550,6 +648,13 @@
         "intercomcdn.com",
         "widget.intercom.io",
         "api.intercom.io"
+      ]
+    },
+    "features": {
+      "Messenger Widget": [
+        "#intercom-container",
+        "[class*='intercom-lightweight-app']",
+        "[id*='intercom-frame']"
       ]
     }
   }

@@ -190,6 +190,33 @@ async function detect(url) {
         return true;
       });
 
+      // 6. Feature-level detection — which product of this platform is active.
+      // Only runs for detected platforms that declare a `features` map.
+      // Every declared feature is reported, detected or not, so "not found"
+      // is an explicit answer rather than a silent omission.
+      // Limitation: checks the DOM as it exists after page load; widgets that
+      // mount only on user interaction (e.g. a search dialog opened by click)
+      // may report detected: false even though the product is installed.
+      let features = null;
+      if (fp.features) {
+        features = [];
+        for (const [featureName, selectors] of Object.entries(fp.features)) {
+          const matchedSel = await page.evaluate((sels) => {
+            for (const sel of sels) {
+              try {
+                if (document.querySelector(sel) !== null) return sel;
+              } catch (_) {}
+            }
+            return null;
+          }, selectors);
+          features.push({
+            name: featureName,
+            detected: matchedSel !== null,
+            evidence: matchedSel,
+          });
+        }
+      }
+
       // Primary evidence: prefer Script URL or Network Request (most descriptive)
       const primary =
         uniqueMatches.find((m) => m.method === 'Script URL') ||
@@ -206,6 +233,7 @@ async function detect(url) {
         scriptUrl: primary.evidence,
         scriptOrder: primary.scriptOrder ?? null,
         allMatches: uniqueMatches,
+        features,
         detectedAt: new Date().toISOString(),
       });
     }
