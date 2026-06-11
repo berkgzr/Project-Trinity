@@ -128,9 +128,18 @@ async function detect(url) {
     // 3. Cookie name matching (browser cookies + Set-Cookie headers)
     const allCookieNames = new Set([...browserCookieNames, ...responseCookieNames]);
     for (const cookieName of fp.detectionRules.cookieNames) {
-      // Support prefix matching (e.g. "AMCV_" matches "AMCV_abc123")
+      // Prefix matching (e.g. "AMCV_" matches "AMCV_abc123") is only safe for
+      // sufficiently specific rules. Very short rules (e.g. "s") would otherwise
+      // match unrelated cookies like "sync_cookie_csrf" and produce false
+      // positives, so we require an exact match for them unless the rule clearly
+      // ends in a separator that signals an intended prefix (e.g. "mp_").
+      const allowPrefix =
+        cookieName.length >= 4 || /[_\-.:]$/.test(cookieName);
       for (const actualName of allCookieNames) {
-        if (actualName.startsWith(cookieName) || actualName === cookieName) {
+        const isMatch = allowPrefix
+          ? actualName.startsWith(cookieName)
+          : actualName === cookieName;
+        if (isMatch) {
           matches.push({ method: 'Cookie', evidence: actualName });
           break;
         }

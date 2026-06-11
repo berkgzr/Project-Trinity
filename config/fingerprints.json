@@ -204,8 +204,6 @@
       ],
       "cookieNames": [
         "scarab",
-        "cdv",
-        "s",
         "emarsys_session"
       ],
       "domSelectors": [

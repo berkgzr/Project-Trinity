@@ -72,6 +72,21 @@ Edit **`config/fingerprints.json`** and add a new entry. No code changes needed.
 | `domSelectors` | CSS selectors checked with `document.querySelector` |
 | `networkHosts` | Hostnames intercepted from all network requests |
 
+### Feature-Level Detection (optional `features` field)
+
+A fingerprint may declare a top-level `features` map (sibling of `detectionRules`) to identify **which product of a detected platform** is active on the page — e.g. that Segmentify powers the site's search:
+
+```json
+"features": {
+  "Site Search (Searchbox)": ["[class*='sgm-searchbox']"],
+  "Product Recommendations (Showcase)": ["[class*='segmentify-showcase']"]
+}
+```
+
+Each key is a product/feature name; the value is a list of CSS selectors. Features are only checked when the platform itself was detected, and **every declared feature is always reported — detected or explicitly `detected: false`** — so a missing product is a clear answer, never a silent omission.
+
+Limitation: selectors run against the DOM as it exists after page load. Widgets that mount only on user interaction (e.g. a search dialog opened by click) may report `detected: false` even though the product is installed.
+
 ---
 
 ## Environment Variables

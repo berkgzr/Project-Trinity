@@ -246,6 +246,36 @@
       margin-top: 4px;
     }
 
+    /* ── Feature-level detection ── */
+    .features {
+      margin-top: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+    .features-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .feature-item {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      font-size: 0.78rem;
+      margin-top: 4px;
+    }
+    .feature-item .feature-status { flex-shrink: 0; }
+    .feature-item.detected .feature-status { color: var(--green); }
+    .feature-item.not-detected { color: var(--text-muted); }
+    .feature-item.not-detected .feature-status { color: var(--red); }
+    .feature-item .feature-note {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
     .all-matches {
       margin-top: 12px;
       border-top: 1px solid var(--border);
@@ -434,6 +464,22 @@
             ${matchRows}
           </details>` : '';
 
+        // Feature-level detection rows — not-detected features are shown
+        // explicitly instead of being hidden.
+        const featuresHtml = d.features && d.features.length > 0 ? `
+          <div class="features">
+            <div class="features-title">Products on this page</div>
+            ${d.features.map((f) => f.detected ? `
+              <div class="feature-item detected">
+                <span class="feature-status">✓</span>
+                <span>${escHtml(f.name)}</span>
+              </div>` : `
+              <div class="feature-item not-detected">
+                <span class="feature-status">✗</span>
+                <span>${escHtml(f.name)} — not detected <span class="feature-note">(may load only on interaction)</span></span>
+              </div>`).join('')}
+          </div>` : '';
+
         const card = document.createElement('div');
         card.className = 'card';
         card.style.setProperty('--card-color', d.color || '#6366f1');
@@ -454,6 +500,7 @@
           </div>
           <span class="badge ${badgeClass}">${icon} ${escHtml(d.detectedBy)}</span>
           <div class="evidence">${escHtml(truncate(d.scriptUrl, 72))}</div>
+          ${featuresHtml}
           ${allMatchesHtml}
         `;
         container.appendChild(card);
